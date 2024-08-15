@@ -14,9 +14,9 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(baseUrl: String = "https://api.openbrewerydb.org/v1") = Retrofit.Builder()
+    fun provideRetrofit() = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(baseUrl)
+        .baseUrl("https://api.openbrewerydb.org/v1/")
         .build()
 
     @Singleton

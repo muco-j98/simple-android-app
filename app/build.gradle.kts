@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
 android {
@@ -40,6 +40,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/gradle/incremental.annotation.processors"
+
+        }
+    }
 }
 
 dependencies {
@@ -55,6 +62,11 @@ dependencies {
 
     val nav_version = "2.3.4"
     val lifecycle_version = "2.3.1"
+
+    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
@@ -72,7 +84,7 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
-    implementation(libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
 
     implementation("com.google.dagger:hilt-android-compiler:2.50")
 

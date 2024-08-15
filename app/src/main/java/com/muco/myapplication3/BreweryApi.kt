@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface BreweryApi {
 
-    @GET("/breweries")
+    @GET("breweries")
     suspend fun getBreweries(): Response<List<BreweryModel>>
 }

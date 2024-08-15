@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.muco.myapplication3.databinding.FragmentBreweryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -22,7 +21,7 @@ class BreweryFragment : Fragment() {
     private val vm: BreweryViewModel by viewModels()
 
     private var _binding: FragmentBreweryBinding? = null
-    private val binding = _binding!!
+    private val binding get() = _binding!!
 
     private lateinit var breweryAdapter: BreweryAdapter
 
@@ -41,15 +40,14 @@ class BreweryFragment : Fragment() {
 
         breweryAdapter = BreweryAdapter()
 
-        binding.breweryRecyclerView.apply {
-            adapter = breweryAdapter
-        }
+        binding.breweryRecyclerView.adapter = breweryAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 vm.breweriesStateFlow.collect { uiState ->
                     when (uiState) {
                         is BreweriesUiState.Success -> {
+                            binding.breweryRecyclerView.isVisible = true
                             breweryAdapter.submitList(uiState.breweryModels)
                             binding.loader.isVisible = false
                         }
